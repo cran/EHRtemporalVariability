@@ -1,4 +1,4 @@
-# EHRtemporalVariability
+# EHRtemporalVariability [![](http://www.r-pkg.org/badges/version/EHRtemporalVariability)](https://cran.r-project.org/package=EHRtemporalVariability)
 
 `EHRtemporalVariability` is an R package for delineating reference changes in Eletronic Health Records over time
 
@@ -8,9 +8,9 @@ The `EHRtemporalVariability` package contains functions to delineate reference c
 
 ## Package' Status
 
- * __Version__: 1.0
- * __Authors__: Carlos Sáez (UPV-HMS), Alba Gutiérrez-Sacristán (HMS), Paul Avillach (HMS), Juan M García-Gómez (UPV)
- * __Maintainer__: Carlos Saez (UPV-HMS)
+ * __Version__: 1.01
+ * __Authors__: Carlos Sáez (UPV-HMS), Alba Gutiérrez-Sacristán (HMS), Isaac Kohane (HMS), Juan M García-Gómez (UPV), Paul Avillach (HMS)
+ * __Maintainer__: Carlos Sáez (UPV-HMS)
  
  Copyright: 2019 - Biomedical Data Science Lab, Universitat Politècnica de València, Spain (UPV) - Department of Biomedical Informatics, Harvard Medical School (HMS)
 
@@ -18,13 +18,13 @@ The `EHRtemporalVariability` package contains functions to delineate reference c
 
 * Vignette: [EHRtemporalVariability: Delineating reference changes in Eletronic Health Records over time](http://personales.upv.es/carsaesi/EHRtemporalVariability.html)
 
-* [Package help](https://github.com/hms-dbmi/EHRtemporalVariability/raw/master/vignettes/EHRtemporalVariabilityHelpForAllFunctions.pdf)
+* [Package help](https://github.com/hms-dbmi/EHRtemporalVariability/raw/master/vignettes/EHRtemporalVariability.pdf)
 
 ## Citation
 
 A paper describing the EHRtemporalVariability package has been submitted. If you use EHRtemporalVariability, please cite:
 
-Sáez C, Gutiérrez-Sacristán A, Avillach P, García-Gómez JM. EHRtemporalVariability: delineating unknown reference changes in Electronic Health Records over time. (Submitted)
+Sáez C, Gutiérrez-Sacristán A, Isaac Kohane, García-Gómez JM, Avillach P. EHRtemporalVariability: delineating unknown reference changes in Electronic Health Records over time. (Submitted)
 
 The original methods and case studies using the approach are described here:
 
@@ -36,6 +36,12 @@ The original methods and case studies using the approach are described here:
 
 
 ## Download
+
+Install the latest released version from CRAN
+
+```R
+install.packages("EHRtemporalVariability")
+```
 
 Download the latest development code of EHRtemporalVariability from GitHub using [devtools](https://cran.r-project.org/package=devtools) with
 
