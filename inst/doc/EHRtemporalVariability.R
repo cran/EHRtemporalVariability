@@ -1,5 +1,5 @@
 ## ----setup, include=FALSE-----------------------------------------------------
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
 
 ## ----cran, message=FALSE, eval=FALSE, warning=FALSE---------------------------
 #  install.packages("EHRtemporalVariability")
@@ -83,19 +83,18 @@ probMapTrimmed <- trimDataTemporalMap(
                                       )
 class( probMapTrimmed )
 
-## ----estimateIGTProjection, eval=FALSE----------------------------------------
-#  igtProj <- estimateIGTProjection( dataTemporalMap = probMaps[[1]],
-#                                    dimensions      = 3,
-#                                    startDate       = "2000-01-01",
-#                                    endDate         = "2010-12-31")
+## ----estimateIGTProjection, eval=TRUE-----------------------------------------
+igtProj <- estimateIGTProjection( dataTemporalMap = probMaps[[1]], 
+                                  dimensions      = 2, 
+                                  startDate       = "2000-01-01", 
+                                  endDate         = "2010-12-31")
 
-## ----estimateIGTProjectionOutput, eval=FALSE----------------------------------
-#  class( igtProj )
+## ----estimateIGTProjectionOutput, eval=TRUE-----------------------------------
+class( igtProj )
 
 ## ----sapplyestimateIGTProjection, eval=FALSE----------------------------------
 #  igtProjs <- sapply ( probMaps, estimateIGTProjection )
 #  names( igtProjs ) <- names( probMaps )
-#  class( igtProj[[ 1 ]] )
 
 ## ----loadExampleFile, eval=TRUE-----------------------------------------------
 githubURL <- "https://github.com/hms-dbmi/EHRtemporalVariability-DataExamples/raw/master/variabilityDemoNHDS.RData"
@@ -114,8 +113,38 @@ plotIGTProjection(
     colorPalette    = "Spectral", 
     dimensions      = 2)
 
+## ----plotIGTprojectionTrajectory, eval=TRUE-----------------------------------
+plotIGTProjection( 
+    igtProjection   =  igtProjs[["diagcode1-phewascode"]],
+    colorPalette    = "Spectral", 
+    dimensions      = 2,
+    trajectory      = TRUE)
+
 ## ----saveRData, eval=FALSE----------------------------------------------------
 #  names( probMaps )
 #  names( igtProjs )
 #  save(probMaps, igtProjs, file = "myExport.RData")
+
+## ----dbscan, message=FALSE, eval=FALSE, warning=FALSE-------------------------
+#  install.packages("dbscan")
+#  library(dbscan)
+
+## ----dbscantrue, echo=FALSE, message=FALSE, eval=TRUE, warning=FALSE----------
+library(dbscan)
+
+## ----temporalSubgroupsClustering, eval=TRUE-----------------------------------
+# We set the minimum number of batches in a subgroup as 2 
+# We set eps based on the knee of the following KNNdistplot, at around 0.023
+# kNNdistplot(igtProj@projection, k = 2, all = FALSE)
+igtProj = igtProjs[["diagcode1-phewascode"]]
+# We select the 2 first dimensions for consistency with the IGT plot examples above
+dbscanResults <- dbscan(igtProj@projection[,c(1,2)], eps = 0.023, minPts = 2)
+clusterNames  <- vector(mode = "character", length = 10)
+clusterNames[dbscanResults$cluster == 0] <- "Outlier batches"
+clusterNames[! dbscanResults$cluster == 0] <- paste("Temporal subgroup",dbscanResults$cluster[! dbscanResults$cluster == 0])
+plotly::plot_ly(x = igtProj@projection[,1], y = igtProj@projection[,2],
+              color = as.factor(clusterNames),
+              type = "scatter", mode = "markers",
+              text = paste0("Date: ",igtProj@dataTemporalMap@dates)) %>%
+              plotly::config(displaylogo = FALSE)
 
