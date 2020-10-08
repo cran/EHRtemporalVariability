@@ -1,8 +1,8 @@
 Package: EHRtemporalVariability
 Type: Package
 Title: Delineating Temporal Dataset Shifts in Electronic Health Records
-Version: 1.1.1
-Date: 2020-05-25
+Version: 1.1.2
+Date: 2020-10-02
 Encoding: UTF-8
 Description: Functions to delineate temporal dataset shifts in Electronic Health 
              Records through the projection and visualization of dissimilarities 
@@ -18,14 +18,14 @@ Description: Functions to delineate temporal dataset shifts in Electronic Health
              Data Temporal heatmaps and Information Geometric Temporal (IGT) plots. 
              An additional 'EHRtemporalVariability' Shiny app can be used to load 
              and explore the package results and even to allow the use of these 
-             functions to those users non-experienced in R coding. Preprint published 
-             in medRxiv (Sáez et al. 2020) <doi:10.1101/2020.04.07.20056564>.
+             functions to those users non-experienced in R coding. (Sáez et al. 2020)
+             <doi:10.1093/gigascience/giaa079>.
 Depends: R (>= 3.3.0), dplyr
 License: Apache License 2.0 | file LICENSE
 LazyData: true
 Imports: plotly, zoo, xts, lubridate, RColorBrewer, viridis, scales,
         methods, MASS
-Suggests: knitr, rmarkdown, devtools, BiocStyle, dbscan
+Suggests: knitr, rmarkdown, devtools, BiocStyle, dbscan, webshot
 VignetteBuilder: knitr
 NeedsCompilation: no
 Authors@R: c(
@@ -38,9 +38,9 @@ Authors@R: c(
   person("Department of Biomedical Informatics, Harvard Medical School", role = c("cph"))
   )
 Maintainer: Carlos Sáez <carsaesi@upv.es>
-RoxygenNote: 7.1.0
-URL: http://github.com/hms-dbmi/EHRtemporalVariability
-Packaged: 2020-05-25 10:09:20 UTC; Carlos
+RoxygenNote: 7.1.1
+URL: https://github.com/hms-dbmi/EHRtemporalVariability
+Packaged: 2020-10-08 10:22:15 UTC; Carlos
 Author: Carlos Sáez [aut, cre],
   Alba Gutiérrez-Sacristán [aut],
   Isaac Kohane [aut],
@@ -50,4 +50,4 @@ Author: Carlos Sáez [aut, cre],
     (Spain) [cph],
   Department of Biomedical Informatics, Harvard Medical School [cph]
 Repository: CRAN
-Date/Publication: 2020-05-25 14:10:02 UTC
+Date/Publication: 2020-10-08 11:30:05 UTC

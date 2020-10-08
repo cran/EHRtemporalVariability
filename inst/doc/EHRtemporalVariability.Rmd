@@ -27,8 +27,11 @@ vignette: >
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
-    BiocStyle::html_document:
-    toc_float: true
+  if (requireNamespace("BiocStyle", quietly = TRUE) & (Sys.info()[['sysname']] != "Windows")) {
+    BiocStyle::html_document
+  } else if (requireNamespace("rmarkdown", quietly = TRUE)) {
+    rmarkdown::html_vignette
+  } else html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -37,6 +40,11 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
 
 # Introduction
 The `EHRtemporalVariability` package contains functions to delineate temporal dataset shifts in Electronic Health Records through the projection and visualization of dissimilarities among data temporal batches. This is done through the estimation of data statistical distributions over time and their projection in non-parametric statistical manifolds, uncovering the patterns of the data latent temporal variability. Dataset shifts can be explored and identified through visual analytics formats such as Data Temporal heatmaps and Information Geometric Temporal (IGT) plots [@saez_probabilistic_2015; @saez2016applying; @saez2018kinematics]. An additional [EHRtemporalVariability Shiny app](https://github.com/hms-dbmi/EHRtemporalVariability-shiny) can be used to load and explore the package results towards an improved investigation experience and even to allow the use of these functions to those users non-experienced in R coding.
+
+If you use `EHRtemporalVariability` please cite:
+
+<span style="background-color:LemonChiffon">Carlos Sáez, Alba Gutiérrez-Sacristán, Isaac Kohane, Juan M García-Gómez, Paul Avillach. EHRtemporalVariability: delineating temporal data-set shifts in Electronic Health Records. GigaScience, Volume 9, Issue 8, August 2020, giaa079. [doi:10.1093/gigascience/giaa079](https://doi.org/10.1093/gigascience/giaa079)</span> [@saez2020]
+
 
 ## Background
 Biomedical Data research repositories and property biomedical research databases are becoming bigger both in terms of sample size and collected variables [@Gewin2016; @Andreu-Perez2015]. Two significant reasons behind of this are the widespread adoption of data-sharing initiatives and technological infrastructures, and the continuous and systematic population of those repositories over longer periods of time. However, these two situations can also introduce potential confounding factors in data which may hinder their reuse for research, such as in population research or in statistical and machine learning modeling. Concretely, differences in protocols, populations, or even unexpected biases, either caused by systems or humans, can lead to temporal dataset shifts [@quionero2009dataset; @moreno2012unifying], changes of reference which are reflected in the statistical distributions of data. This temporal variability of data represent a Data Quality (DQ) issue which must be addressed for a reliable data reuse [@saez2016applying; @schlegel2017secondary].
@@ -89,12 +97,12 @@ library( EHRtemporalVariability )
 
 The `DataTemporalMap` object contains the statistical distributions of data estimated at a specific time period. 
 
-```{r EHRtemporalVariabilityObj1, echo = FALSE, eval = TRUE}
-githubURL <- "http://github.com/hms-dbmi/EHRtemporalVariability-DataExamples/raw/master/variabilityDemoNHDS.RData"
+```{r EHRtemporalVariabilityObj1, echo = FALSE, eval = TRUE, warning=FALSE}
+githubURL <- "https://github.com/hms-dbmi/EHRtemporalVariability-DataExamples/raw/master/variabilityDemoNHDS.RData"
 load(url(githubURL))
 ```
 
-```{r variabilityObj2, eval=TRUE}
+```{r variabilityObj2, eval=TRUE, warning=FALSE}
 class( probMaps$`diagcode1-phewascode` )
 ```
 <br>
@@ -107,7 +115,7 @@ class( probMaps$`diagcode1-phewascode` )
 
 The `IGTProjection` object contains the projected non-parametric statistical manifold of a `DataTemporalMap` object (also included in the object) estimated in a specific number of dimensions.
 
-```{r igtProjObj, eval=TRUE}
+```{r igtProjObj, eval=TRUE, warning=FALSE}
 class( igtProjs$`diagcode1-phewascode` )
 ```
 <br>
@@ -125,7 +133,7 @@ The `read.csv` function reads a file in table format and creates a data frame fr
 
 An example of how to read the CSV file is shown next:
 
-```{r readCSV, eval=TRUE}
+```{r readCSV, eval=TRUE, warning=FALSE}
 dataset <- read.csv2( "http://github.com/hms-dbmi/EHRtemporalVariability-DataExamples/raw/master/nhdsSubset.csv", 
                       sep  = ",",
                       header = TRUE, 
@@ -146,7 +154,7 @@ The `formatDate` function transform the column containing the dates from the giv
 
 The `formatDate` function output is the same data.frame with the date column transformed.
 
-```{r formatDate2, eval=TRUE}
+```{r formatDate2, eval=TRUE, warning=FALSE}
 class( dataset$date )
 datasetFormatted <- EHRtemporalVariability::formatDate(
               input         = dataset,
@@ -208,7 +216,7 @@ Additionally this function has the following optional arguments:
 
 The `estimateDataTemporalMap` function output is a `DataTemporalMap` object or a list of `DataTemporalMap` objects depending on the number of analysis variables.
 
-```{r estimateDataTemporalMap, eval=FALSE}
+```{r estimateDataTemporalMap, eval=FALSE, warning=FALSE}
 probMaps <- estimateDataTemporalMap(data           = datasetPheWAS, 
                                     dateColumnName = "date", 
                                     period         = "month")
@@ -216,14 +224,14 @@ probMaps <- estimateDataTemporalMap(data           = datasetPheWAS,
 
 In the previous specific example, nhds data frame is used as input, with the `date` column previously formated to `Date` format. The `estimateDataTemporalMap` function has been applied to the X variables present in the initial data set. As a result, a list of X `DataTemporalMap` objects is obtained.
 
-```{r estimateDataTemporalMapOutput, eval=TRUE}
+```{r estimateDataTemporalMapOutput, eval=TRUE, warning=FALSE}
 class( probMaps )
 class( probMaps[[ 1 ]] )
 ```
 
 Variable supports can be set manually for all or some of the variables using the `support` parameter. The support of those variables not present in the `support` parameter will be estimated automatically as when the parameter is not passed.
 
-```{r estimateDataTemporalMapSupport, eval=FALSE}
+```{r estimateDataTemporalMapSupport, eval=FALSE, warning=FALSE}
 supports <- vector("list",2)
 names(supports) <- c("age","diagcode1")
 supports[[1]] <- 1:18
@@ -246,7 +254,7 @@ The `trimDataTemporalMap` function needs as input the following arguments:
 
 The `trimDataTemporalMap` function output is a new `DataTemporalMap` object.
 
-```{r trimDataTemporalMap, eval=TRUE}
+```{r trimDataTemporalMap, eval=TRUE, warning=FALSE}
 class( probMaps[[1]] )
 probMapTrimmed <- trimDataTemporalMap( 
                         dataTemporalMap = probMaps[[1]],
@@ -269,7 +277,7 @@ The `estimateIGTProjection` function estimates a `IGTProjection` object from a `
 
 The `estimateIGTProjection` function output is a `IGTProjection` object.
 
-```{r estimateIGTProjection, eval=TRUE}
+```{r estimateIGTProjection, eval=TRUE, warning=FALSE}
 igtProj <- estimateIGTProjection( dataTemporalMap = probMaps[[1]], 
                                   dimensions      = 2, 
                                   startDate       = "2000-01-01", 
@@ -278,13 +286,13 @@ igtProj <- estimateIGTProjection( dataTemporalMap = probMaps[[1]],
 
 The `estimateIGTProjection` function can be applied to one `DataTemporalMap` object. As a result, an `IGTProjection` object is obtained.
 
-```{r estimateIGTProjectionOutput, eval=TRUE}
+```{r estimateIGTProjectionOutput, eval=TRUE, warning=FALSE}
 class( igtProj )
 ```
 
 The `sapply` function can be used to apply the `estimateIGTProjection` function to the output from `estimateDataTemporalMap` function including more than one variable, which result is a list of `DataTemporalMap` objects, as follows:
 
-```{r sapplyestimateIGTProjection, eval=FALSE}
+```{r sapplyestimateIGTProjection, eval=FALSE, warning=FALSE}
 igtProjs <- sapply ( probMaps, estimateIGTProjection )
 names( igtProjs ) <- names( probMaps )
 ```
@@ -308,12 +316,12 @@ The `plotDataTemporalMap` function returns a heatmap plot.  This function has as
 
 To illustrate the next examples we load the example .Rdata file, which contains the results from analyzing the complete "NHDS" dataset.
 
-```{r loadExampleFile, eval=TRUE}
+```{r loadExampleFile, eval=TRUE, warning=FALSE}
 githubURL <- "https://github.com/hms-dbmi/EHRtemporalVariability-DataExamples/raw/master/variabilityDemoNHDS.RData"
 load(url(githubURL))
 ```
 
-```{r plotHeatmap, eval=TRUE}
+```{r plotHeatmap, eval=TRUE, warning=FALSE}
 plotDataTemporalMap(
     dataTemporalMap =  probMaps[["diagcode1-phewascode"]],
     startValue = 2,
@@ -331,7 +339,7 @@ The `plotIGTProjection` function returns an interactive Information Geometric Te
   - _colorPalette_: the color palette to be used.
   - _trajectory_:  whether to show an estimated trajectory of the information evolution over time. 
 
-```{r plotIGTprojection, eval=TRUE}
+```{r plotIGTprojection, eval=TRUE, warning=FALSE}
 plotIGTProjection( 
     igtProjection   =  igtProjs[["diagcode1-phewascode"]],
     colorPalette    = "Spectral", 
@@ -363,7 +371,7 @@ To track the temporal evolution, temporal batches are labeled to show their date
 
 The `plotIGTProjection` function allows overlying to both 2D and 3D IGT plots an smoothed trajectory of the information evolution over time, which is calculated with smoothed splines. To plot the trajectory set the _trajectory_ parameter to `TRUE`.
 
-```{r plotIGTprojectionTrajectory, eval=TRUE}
+```{r plotIGTprojectionTrajectory, eval=TRUE, warning=FALSE}
 plotIGTProjection( 
     igtProjection   =  igtProjs[["diagcode1-phewascode"]],
     colorPalette    = "Spectral", 
@@ -373,9 +381,9 @@ plotIGTProjection(
 
 ## Export data for the Shiny app dashboard
 
-The [EHRtemporalVariability Shiny app](https://github.com/hms-dbmi/variability-shiny) allows loading your own .csv file through simple configuration steps but, however, with limited data pre-processing. Consequently, users can export the DataTemporalHeatmaps and IGTplots generated from the R package as an .RData file for their exporation through the interactive Shiny app dashboard. The export is done as follows (note that both DataTemporalHeatmaps and IGTplots must be lists of same size where the names of their items correspond to the variable names):
+The [EHRtemporalVariability Shiny app](https://github.com/hms-dbmi/EHRtemporalVariability-shiny) allows loading your own .csv file through simple configuration steps but, however, with limited data pre-processing. Consequently, users can export the DataTemporalHeatmaps and IGTplots generated from the R package as an .RData file for their exporation through the interactive Shiny app dashboard. The export is done as follows (note that both DataTemporalHeatmaps and IGTplots must be lists of same size where the names of their items correspond to the variable names):
 
-```{r saveRData, eval=FALSE}
+```{r saveRData, eval=FALSE, warning=FALSE}
 names( probMaps )
 names( igtProjs )
 save(probMaps, igtProjs, file = "myExport.RData")
@@ -416,7 +424,7 @@ library(dbscan)
 library(dbscan)
 ```
 
-```{r temporalSubgroupsClustering, eval=TRUE}
+```{r temporalSubgroupsClustering, eval=TRUE, warning=FALSE}
 # We set the minimum number of batches in a subgroup as 2 
 # We set eps based on the knee of the following KNNdistplot, at around 0.023
 # kNNdistplot(igtProj@projection, k = 2, all = FALSE)
