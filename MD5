@@ -1,4 +1,4 @@
-0143a99c6899573c76bd7fa8371cdf35 *DESCRIPTION
+7db97b31a5e58bad938f9488cff41ed5 *DESCRIPTION
 3d113347136ff8800e34bb85c10182e0 *LICENSE
 73c66e939014e2eb31c0160727c51ea6 *NAMESPACE
 ce8e92248aebcfaeeec16558e486d560 *NEWS.md
@@ -14,8 +14,8 @@ bed42ced71fe68c34673daf7af6581da *R/igtProjectionCore.R
 1a0a17137bc76198993dcec1efdb6c33 *README.md
 610875f5ef3bd52109b83932405398cd *build/vignette.rds
 c308d95ba6c62899cd2375d01c7cdd77 *inst/doc/EHRtemporalVariability.R
-452f70e4a506bc6fb8e7746d76c222c4 *inst/doc/EHRtemporalVariability.Rmd
-693a91c6a1b6700deb0afeae0eea7f7b *inst/doc/EHRtemporalVariability.html
+d0ef023c16203dcc49ef585ba95993c4 *inst/doc/EHRtemporalVariability.Rmd
+9070898cd4d0d5d601c47caec4a50569 *inst/doc/EHRtemporalVariability.html
 ffdd5d6c98fa3f74c41c16db9887ca4e *inst/extdata/icd9mappingFile.csv
 4dc188b27fb4eccefcd063b67f4a4982 *inst/extdata/nhdsSubset.csv
 0d1727c2ac4faf1c457049b30a0a77ef *inst/extdata/variabilityDemoNHDSdiagcode1-phewascode.RData
@@ -28,7 +28,7 @@ e7cfe43fe5568736615e5ae59d94f21f *man/formatDate.Rd
 5324aebcdb580f2d540761b2d5c6bcb9 *man/plotDataTemporalMap-methods.Rd
 284604fef99a21d994d6fd15e5a9be85 *man/plotIGTProjection-methods.Rd
 c0fe459247e37bcd339d760e1c3a4100 *man/trimDataTemporalMap-methods.Rd
-452f70e4a506bc6fb8e7746d76c222c4 *vignettes/EHRtemporalVariability.Rmd
+d0ef023c16203dcc49ef585ba95993c4 *vignettes/EHRtemporalVariability.Rmd
 078f00dcd03fd1be2b41670f0b879cb5 *vignettes/EHRtemporalVariability.md
 51790ef69ef5fc09581a42a5f6323ec3 *vignettes/EHRtemporalVariabilityHelp.pdf
 1ed61e48f7830da361fa0f2323b07926 *vignettes/biomed-central.csl

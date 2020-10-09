@@ -27,11 +27,8 @@ vignette: >
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
-  if (requireNamespace("BiocStyle", quietly = TRUE) & (Sys.info()[['sysname']] != "Windows")) {
-    BiocStyle::html_document
-  } else if (requireNamespace("rmarkdown", quietly = TRUE)) {
-    rmarkdown::html_vignette
-  } else html_document
+    BiocStyle::html_document:
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
