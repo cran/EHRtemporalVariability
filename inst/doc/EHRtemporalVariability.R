@@ -107,6 +107,13 @@ plotDataTemporalMap(
     endValue = 20,
     colorPalette    = "Spectral")
 
+## ----plotSeries, eval=TRUE, warning=FALSE-------------------------------------
+plotDataTemporalMap(
+    dataTemporalMap =  probMaps[["diagcode1-phewascode"]],
+    startValue = 2,
+    endValue = 10,
+    mode = "series")
+
 ## ----plotIGTprojection, eval=TRUE, warning=FALSE------------------------------
 plotIGTProjection( 
     igtProjection   =  igtProjs[["diagcode1-phewascode"]],
